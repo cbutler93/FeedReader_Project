@@ -34,8 +34,7 @@ $(function() {
 
         it('have valid URLs', function() {
             allFeeds.forEach(feed => {
-                /*A feed with an empty URL is coerced to false. Expect the feed URL to not be empty (false). */
-                expect(feed.url).not.toBe(true);
+                expect(feed.url.length > 0).toBe(true);
             })
         })
 
@@ -43,6 +42,12 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+        it('have valid names', function() {
+            allFeeds.forEach(feed => {
+                expect(feed.name.length > 0).toBe(true);
+            })
+        })
     });
 
 
