@@ -43,30 +43,37 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
-
     describe('Initial Entries', function() {
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
 
         beforeEach(function(done) {
-            /* Load feed with first ID and pass in done function for loadFeed to call when the request status is determined and loadFeed is complete. */
+            /* Load feed with first ID and pass in done for loadFeed to call when the request status is determined (async work complete). */
             loadFeed(0, done);
-        })
+        });
 
         it('should have at least a single entry', function() {
             const feed = document.querySelector('.feed');
             expect(feed.childNodes.length > 0).toBe(true);
-        })
+        });
     });
-    /* TODO: Write a new test suite named "New Feed Selection" */
 
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
+    describe('New Feed Selection', function() {
+        var feedOne, feedTwo;
+
+        beforeAll(function(done) {
+            // Load first feed and store links in feedOne.
+            loadFeed(0, function() {
+                feedOne = document.querySelectorAll('.feed a');
+                // Load second feed and store links in feedTwo.
+                loadFeed(1, function() {
+                    feedTwo = document.querySelectorAll('.feed a');
+                    done(); // All async work complete.
+                });
+            });
+        });
+
+        it('should have different content', function() {
+            /* Check to make sure the first nodes in each NodeList are not equal (content has changed). */
+            expect(feedOne[0].isEqualNode(feedTwo[0])).toBe(false);
+        });
+    });
 }());
